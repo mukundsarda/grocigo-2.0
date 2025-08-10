@@ -10,6 +10,14 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
+// Hardcode DB configuration here if you prefer code-based settings instead of env vars
+// Replace REPLACE_WITH_YOUR_PASSWORD with your actual MySQL password
+process.env.DB_HOST = process.env.DB_HOST || '127.0.0.1';
+process.env.DB_USER = process.env.DB_USER || 'root';
+process.env.DB_PASS = process.env.DB_PASS || 'root';
+process.env.DB_NAME = process.env.DB_NAME || 'wholesale';
+process.env.DB_PORT = process.env.DB_PORT || '3306';
+
 // Configure DB from env or defaults
 const DB_CONFIG = {
   host: process.env.DB_HOST || 'localhost',
