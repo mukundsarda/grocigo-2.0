@@ -1,0 +1,5 @@
+cust_id,cust_name,email_id,password
+
+cust_id -> cust_name
+cust_id -> email_id
+cust_id -> password

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+  <link rel='stylesheet' href="style.css">
+  <title>View Products</title>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+</head>
+<body>
+  <div class="topStyle">
+    <h2 style="color:ghostwhite;">&nbsp &nbspGrocigo</h2>
+    <a class='userNameDisplay'></a>
+    <div class="solid"></div>
+  </div>
+  <div class='sidebar'>
+    <button onclick="location.href='customerHome.html'">Home</button>
+    <button onclick="location.href='viewProductsCustomer.html'">View Products</button>
+    <button onclick="location.href='order.html'">Order</button>
+    <button onclick="location.href='cart.html'">Cart</button>
+    <button onclick="location.href='customerViewTransactions.html'">My Transactions</button>
+    <button id="logoutBtn">Logout</button>
+  </div>
+  <div class='container'>
+    <fieldset><legend><b>Categories</b></legend>
+      <table id="categoriesTable"><tr><th>Category ID</th><th>Category Name</th></tr><tbody></tbody></table>
+      <form id="catForm">
+        <input class='formInputItem' type=text name="catID" placeholder="Enter Category ID" required>
+        <input class='goBtn' type=submit value='Go'>
+      </form><br><br>
+    </fieldset>
+    <div id="productsSection" style="display:none;">
+      <fieldset><legend><b>Products</b></legend>
+        <table id="productsTable"><tr><th>Product ID</th><th>Product Name</th><th>Price</th><th>Stock Left</th></tr><tbody></tbody></table>
+      </fieldset><br>
+    </div>
+  </div>
+  <script>
+    (async () => {
+      const uid = await GrocigoUI.requireLoginAndSetUser();
+      if (!uid) return;
+      const cats = await GrocigoAPI.getCategories();
+      GrocigoUI.renderCategoriesTable('#categoriesTable tbody', cats);
+    })();
+    const form = document.getElementById('catForm');
+    form.addEventListener('submit', async function(e){
+      e.preventDefault();
+      const catID = new FormData(form).get('catID');
+      const prods = await GrocigoAPI.getProducts(catID);
+      GrocigoUI.renderProductsTable(document.getElementById('productsTable'), prods);
+      document.getElementById('productsSection').style.display = 'block';
+    });
+    document.getElementById('logoutBtn').onclick = async () => { await GrocigoAPI.logout(); location.href = 'login.html'; };
+  </script>
+</body>
+</html>

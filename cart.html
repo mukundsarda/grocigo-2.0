@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+  <link rel='stylesheet' href="style.css">
+  <title>Cart</title>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+</head>
+<body>
+  <div class="topStyle">
+    <h2 style="color:ghostwhite;">&nbsp &nbspGrocigo</h2>
+    <a class='userNameDisplay'></a>
+    <div class="solid"></div>
+  </div>
+  <div class='sidebar'>
+    <button onclick="location.href='customerHome.html'">Home</button>
+    <button onclick="location.href='viewProductsCustomer.html'">View Products</button>
+    <button onclick="location.href='order.html'">Order</button>
+    <button onclick="location.href='cart.html'">Cart</button>
+    <button onclick="location.href='customerViewTransactions.html'">My Transactions</button>
+    <button id="logoutBtn">Logout</button>
+  </div>
+  <div class='container'>
+    <fieldset><legend><b>Cart</b></legend>
+      <form id="cartForm">
+        <table id="cartTable"><tr><th>Product Name</th><th>Quantity</th><th>Price</th><th></th></tr><tbody></tbody></table>
+      </form>
+      <br>
+      <legend>Total Price: </legend><span id="totalPrice">0</span>
+      <button style='float:right;width:200px;height:5em;' id='continueBtn' class='goBtn'>Continue</button>
+    </fieldset>
+  </div>
+  <script>
+    let lastCart = [];
+    async function refresh() {
+      const cart = await GrocigoAPI.getCart();
+      lastCart = cart;
+      const tbody = document.querySelector('#cartTable tbody');
+      tbody.innerHTML = '';
+      cart.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${item.product_name}</td><td>${item.quantity}</td><td>${item.price}</td><td><button type='button' class='goBtn' data-remove='${item.product_id}'>Remove</button></td>`;
+        tbody.appendChild(tr);
+      });
+      const total = GrocigoUI.sumCart(cart);
+      document.getElementById('totalPrice').textContent = String(total);
+    }
+    document.addEventListener('DOMContentLoaded', async () => {
+      const uid = await GrocigoUI.requireLoginAndSetUser();
+      if (!uid) return;
+      await refresh();
+    });
+    document.querySelector('#cartTable').addEventListener('click', async (e) => {
+      const btn = e.target.closest('button[data-remove]');
+      if (!btn) return;
+      const pid = btn.getAttribute('data-remove');
+      await GrocigoAPI.removeFromCart({ product_id: pid });
+      await refresh();
+    });
+    document.getElementById('continueBtn').onclick = () => {
+      const total = GrocigoUI.sumCart(lastCart);
+      window.location.href = 'placeOrder.html?totalPrice=' + encodeURIComponent(total);
+    };
+    document.getElementById('logoutBtn').onclick = async () => { await GrocigoAPI.logout(); location.href = 'login.html'; };
+  </script>
+</body>
+</html>

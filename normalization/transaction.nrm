@@ -1,0 +1,8 @@
+transaction_id,customer_id,transaction_amount,payment,phone,address,date
+
+transaction_id -> customer_id
+transaction_id -> transaction_amount
+transaction_id -> payment
+transaction_id -> phone
+transaction_id -> address
+transaction_id -> date

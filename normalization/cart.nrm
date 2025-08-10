@@ -1,0 +1,6 @@
+product_id,product_name,quantity,price,customer_id
+
+product_id -> product_name
+product_id -> quantity
+product_id -> price
+product_id -> customer_id

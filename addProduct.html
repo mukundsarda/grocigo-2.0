@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+  <link rel='stylesheet' href="style.css">
+  <title>Add Product</title>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+</head>
+<body>
+  <div class="topStyle">
+    <h2 style="color:ghostwhite;">&nbsp &nbspGrocigo</h2>
+    <a class='userNameDisplay'></a>
+    <div class="solid"></div>
+  </div>
+  <div class='sidebar'>
+    <button onclick="location.href='adminHome.html'">Home</button>
+    <button onclick="location.href='viewProducts.html'">View Products</button>
+    <button onclick="location.href='addStock.html'">Add Stock</button>
+    <button onclick="location.href='addProduct.html'">Add New Product</button>
+    <button onclick="location.href='depleted.html'">Depleted Products</button>
+    <button onclick="location.href='customers.html'">Customers</button>
+    <button onclick="location.href='transactions.html'">Transactions</button>
+    <button id="logoutBtn">Logout</button>
+  </div>
+  <div class='container'>
+    <fieldset><legend><b>Add a Product</b></legend>
+      <form id='addProductForm'>
+        <label for='pName'> Product Name: </label><input id='pName' type=text class='formInputItem' name='pName' required><br>
+        <label for='catID'>Category ID: </label><input id='catID' type=text class='formInputItem' name='catID' required><br>
+        <label for='price'>Price: </label><input id='price' type=number min="0" class='formInputItem' name='price' required><br>
+        <label for='quantity'>Quantity: </label><input id='quantity' type=number min="0" class='formInputItem' name='quantity' required><br>
+        <label for='submit'></label><input class='goBtn' type=submit value='Add Product'>
+      </form>
+    </fieldset>
+  </div>
+  <script>
+    (async () => {
+      const uid = await GrocigoUI.requireLoginAndSetUser();
+      if (!uid) return;
+      GrocigoUI.ensureAdminOrRedirect(uid);
+    })();
+    document.getElementById('addProductForm').addEventListener('submit', async function(e){
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      try {
+        await GrocigoAPI.addProduct({
+          product_name: fd.get('pName'),
+          category_id: fd.get('catID'),
+          price: Number(fd.get('price')),
+          quantity: Number(fd.get('quantity')),
+        });
+        alert('Product added');
+        e.target.reset();
+      } catch (err) {
+        alert(err.message || 'Failed to add product');
+      }
+    });
+    document.getElementById('logoutBtn').onclick = async () => { await GrocigoAPI.logout(); location.href = 'login.html'; };
+  </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+  <link rel='stylesheet' href="style.css">
+  <title>Customer Home</title>
+  <style>
+  .Login11{width:100px;height:100px;border-radius:50%;position:absolute;top:-51px;left:calc(50% - 55px);}  
+  </style>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+</head>
+<body>
+  <div class="topStyle">
+    <h2 style="color:ghostwhite;">&nbsp &nbspGrocigo</h2>
+    <a class='userNameDisplay'></a>
+    <div class="solid"></div>
+  </div>
+  <div class='sidebar'>
+    <button onclick="location.href='customerHome.html'">Home</button>
+    <button onclick="location.href='viewProductsCustomer.html'">View Products</button>
+    <button onclick="location.href='order.html'">Order</button>
+    <button onclick="location.href='cart.html'">Cart</button>
+    <button onclick="location.href='customerViewTransactions.html'">My Transactions</button>
+    <button id="logoutBtn">Logout</button>
+  </div>
+  <div class='container'>
+    <fieldset><legend><b>Options :</b></legend>
+      <p> - View Products<br>
+      - Order Products<br>
+      - View Transactions</p>
+    </fieldset>
+  </div>
+  <script>
+    (async () => { await GrocigoUI.requireLoginAndSetUser(); })();
+    document.getElementById('logoutBtn').onclick = async () => { await GrocigoAPI.logout(); location.href = 'login.html'; };
+  </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+  <link rel='stylesheet' href="style.css">
+  <title>Customers</title>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+</head>
+<body>
+  <div class="topStyle">
+    <h2 style="color:ghostwhite;">&nbsp &nbspGrocigo</h2>
+    <a class='userNameDisplay'></a>
+    <div class="solid"></div>
+  </div>
+  <div class='sidebar'>
+    <button onclick="location.href='adminHome.html'">Home</button>
+    <button onclick="location.href='viewProducts.html'">View Products</button>
+    <button onclick="location.href='addStock.html'">Add Stock</button>
+    <button onclick="location.href='addProduct.html'">Add New Product</button>
+    <button onclick="location.href='depleted.html'">Depleted Products</button>
+    <button onclick="location.href='customers.html'">Customers</button>
+    <button onclick="location.href='transactions.html'">Transactions</button>
+    <button id="logoutBtn">Logout</button>
+  </div>
+  <div class='container'>
+    <fieldset><legend><b>Customers</b></legend>
+      <table id="custTable"><tr><th>Username</th><th>Customer Name</th><th>E-mail</th><th>password</th></tr><tbody></tbody></table>
+    </fieldset>
+  </div>
+  <script>
+    (async () => {
+      const uid = await GrocigoUI.requireLoginAndSetUser();
+      if (!uid) return;
+      GrocigoUI.ensureAdminOrRedirect(uid);
+      const tbody = document.querySelector('#custTable tbody');
+      tbody.innerHTML = '';
+      const users = await GrocigoAPI.getCustomers();
+      users.forEach(u => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${u.cust_id}</td><td>${u.cust_name}</td><td>${u.email_id}</td><td>${u.password}</td>`;
+        tbody.appendChild(tr);
+      });
+    })();
+    document.getElementById('logoutBtn').onclick = async () => { await GrocigoAPI.logout(); location.href = 'login.html'; };
+  </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+  <link rel='stylesheet' href="style.css">
+  <title>Place Order</title>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+</head>
+<body>
+  <div class="topStyle">
+    <h2 style="color:ghostwhite;">&nbsp &nbspGrocigo</h2>
+    <a class='userNameDisplay'></a>
+    <div class="solid"></div>
+  </div>
+  <div class='sidebar'>
+    <button onclick="location.href='customerHome.html'">Home</button>
+    <button onclick="location.href='viewProductsCustomer.html'">View Products</button>
+    <button onclick="location.href='order.html'">Order</button>
+    <button onclick="location.href='cart.html'">Cart</button>
+    <button onclick="location.href='customerViewTransactions.html'">My Transactions</button>
+    <button id="logoutBtn">Logout</button>
+  </div>
+  <div class='container'>
+    <fieldset><legend><b>Order Details</b></legend>
+      <form id='orderForm'>
+        <label for='textarea'>Address: </label><textarea id='textarea' name='address' required></textarea><br>
+        <label for='phone'>Phone: </label><input type=text name='phone' class='formInputItem' required><br>
+        <label for='payment'>Payment: </label>
+        <input type=radio name='payment' value='online' required> Online
+        <input type=radio name='payment' value='COD' required> Cash On Delivery<br>
+        <p>Total Amount: <span id="totalAmount"></span>&#8377;</p>
+        <label></label><button style='width:250px;height:5em;' type='submit' class='goBtn'>Place Order</button>
+      </form>
+    </fieldset>
+  </div>
+  <script>
+    (async () => { await GrocigoUI.requireLoginAndSetUser(); })();
+    const params = new URLSearchParams(location.search);
+    let totalPrice = Number(params.get('totalPrice') || 0);
+    document.getElementById('totalAmount').textContent = String(totalPrice);
+
+    document.getElementById('orderForm').addEventListener('submit', async function(e){
+      e.preventDefault();
+      if (!totalPrice) {
+        alert('Cart is empty!');
+        window.location.href = 'cart.html';
+        return;
+      }
+      const fd = new FormData(e.target);
+      try {
+        await GrocigoAPI.placeOrder({
+          phone: fd.get('phone'),
+          address: fd.get('address'),
+          payment: fd.get('payment'),
+        });
+        alert('Order placed.\nThe products will be delivered within 5 hours.');
+        window.location.href = 'order.html';
+      } catch (err) {
+        alert(err.message || 'Failed to place order');
+      }
+    });
+    document.getElementById('logoutBtn').onclick = async () => { await GrocigoAPI.logout(); location.href = 'login.html'; };
+  </script>
+</body>
+</html>

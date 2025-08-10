@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Grocery Management</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="js/api.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const s = await GrocigoAPI.getSession();
+      if (!s || !s.loginUser) { window.location.replace('login.html'); return; }
+      if (s.loginUser === 'mak') window.location.replace('adminHome.html');
+      else window.location.replace('customerHome.html');
+    } catch {
+      window.location.replace('login.html');
+    }
+  });
+</script>
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+.fa-anchor,.fa-coffee {font-size:200px}
+</style>
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-red w3-card w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
+    <a href="login.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Login</a>
+    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">About us</a>
+    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Contact us</a>
+  </div>
+
+  <!-- Navbar on small screens -->
+  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+    <a href="login.html" class="w3-bar-item w3-button w3-padding-large">Login</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">About us</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Contact us</a>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="w3-container w3-red w3-center" style="padding:128px 16px">
+  <h1 class="w3-margin w3-jumbo">Grocery Management</h1>
+  <p class="w3-xlarge"></p>
+</header>
+
+<!-- First Grid -->
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1>E-commerce impacts</h1>
+      <h5 class="w3-padding-32">For a long time, companies had been troubled by the gap between the benefits which supply chain technology has and the solutions to deliver those benefits. However, the emergence of e-commerce has provided a more practical and effective way of delivering the benefits of the new supply chain technologies.[69]
+
+E-commerce has the capability to integrate all inter-company and intra-company functions, meaning that the three flows (physical flow, financial flow and information flow) of the supply chain could be also affected by e-commerce. The affections on physical flows improved the way of product and inventory movement level for companies. For the information flows, e-commerce optimised the capacity of information processing than companies used to have, and for the financial flows, e-commerce allows companies to have more efficient payment and settlement solutions.[69].</h5>
+
+    </div>
+
+    <div class="w3-third w3-center">
+      <i class="fa fa-anchor w3-padding-64 w3-text-red"></i>
+    </div>
+  </div>
+</div>
+
+<!-- Second Grid -->
+<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-third w3-center">
+      <i class="fa fa-coffee w3-padding-64 w3-text-red w3-margin-right"></i>
+    </div>
+
+    <div class="w3-twothird">
+      <h1>E-commerce advantages</h1>
+      <h5 class="w3-padding-32">E-commerce brings convenience for customers as they do not have to leave home and only need to browse website online, especially for buying the products which are not sold in nearby shops. It could help customers buy wider range of products and save customers’ time. Consumers also gain power through online shopping. They are able to research products and compare prices among retailers. Also, online shopping often provides sales promotion or discounts code, thus it is more price effective for customers. Moreover, e-commerce provides products’ detailed information; even the in-store staff cannot offer such detailed explanation. Customers can also review and track the order history online.
+
+E-commerce technologies cut transaction costs by allowing both manufactures and consumers to skip through the intermediaries. This is achieved through by extending the search area best price deals and by group purchase. The success of e-commerce in urban and regional levels depend on how the local firms and consumers have adopted to e-commerce..</h5>
+
+    </div>
+  </div>
+</div>
+
+<div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
+    <h1 class="w3-margin w3-xlarge">Quote of the day: live life</h1>
+</div>
+
+<!-- Footer -->
+<footer class="w3-container w3-padding-64 w3-center w3-opacity">  
+  <div class="w3-xlarge w3-padding-32">
+    <i class="fa fa-facebook-official w3-hover-opacity"></i>
+    <i class="fa fa-instagram w3-hover-opacity"></i>
+    <i class="fa fa-snapchat w3-hover-opacity"></i>
+    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+    <i class="fa fa-twitter w3-hover-opacity"></i>
+    <i class="fa fa-linkedin w3-hover-opacity"></i>
+ </div>
+ <p>All rights are reserverd</p>
+</footer>
+
+<script>
+function myFunction() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else { 
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+</script>
+</body>
+</html>

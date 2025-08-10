@@ -1,0 +1,4 @@
+product_id,product_name,quantity_left
+
+product_id -> product_name
+product_id -> quantity_left
