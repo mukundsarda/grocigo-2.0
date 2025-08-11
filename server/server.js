@@ -196,7 +196,7 @@ app.get('/api/depleted', requireAuth, requireAdmin, async (req, res) => {
   res.json(rows);
 });
 
-const PORT = Number(process.env.PORT || 8080);
+const PORT = Number(process.env.PORT || 5500);
 // Serve static files from project root
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 app.use(express.static(path.join(__dirname, '..')));
